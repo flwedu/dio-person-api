@@ -1,5 +1,8 @@
 package com.dio.personapi.service;
 
+import com.dio.personapi.dto.request.PersonDTO;
+import com.dio.personapi.mapper.PersonMapper;
+import com.dio.personapi.message.MessageResponse;
 import com.dio.personapi.model.Person;
 import com.dio.personapi.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +15,21 @@ import java.util.Optional;
 public class PersonService {
 
     private PersonRepository repository;
+    private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
     @Autowired
     public PersonService(PersonRepository repository) {
         this.repository = repository;
     }
 
-    public List<Person> findAll() {
-        return repository.findAll();
-    }
+    public MessageResponse savePerson(PersonDTO personDTO) {
+        Person personToSave = personMapper.toModel(personDTO);
 
-    public Optional<Person> findById(Long id) {
-        return repository.findById(id);
-    }
+        Person savedPerson = repository.save(personToSave);
 
-    public Person save(Person person) {
-        return repository.save(person);
+        return MessageResponse
+                .builder()
+                .message(String.format("Created a person with ID %d", savedPerson.getId()))
+                .build();
     }
 }
