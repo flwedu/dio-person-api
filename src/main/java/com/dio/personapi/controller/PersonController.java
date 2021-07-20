@@ -27,17 +27,17 @@ public class PersonController {
 
     @GetMapping
     public List<PersonDTO> getListPerson(){
-        return personService.listAllPerson();
+        return personService.listAll();
     }
 
     @GetMapping("/{id}")
     public PersonDTO getPersonById(@PathVariable Long id) throws PersonNotFoundException {
-        return personService.getPersonById(id);
+        return personService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public MessageResponse createPerson(@RequestBody @Valid PersonDTO personDTO){
-        return personService.savePerson(personDTO);
+        return personService.save(personDTO);
     }
 }

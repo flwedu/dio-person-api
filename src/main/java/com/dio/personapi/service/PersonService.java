@@ -28,7 +28,7 @@ public class PersonService {
      * Lista todas as pessoas do repositório
      * @return lista com todas as pessoas
      */
-    public List<PersonDTO> listAllPerson(){
+    public List<PersonDTO> listAll(){
         List<Person> personList = repository.findAll();
         return personList
                 .stream()
@@ -41,7 +41,7 @@ public class PersonService {
      * @param personDTO DTO com os dados a serem persistidos
      * @return Mensagem que será retornada
      */
-    public MessageResponse savePerson(PersonDTO personDTO) {
+    public MessageResponse save(PersonDTO personDTO) {
         Person personToSave = personMapper.toModel(personDTO);
 
         Person savedPerson = repository.save(personToSave);
@@ -52,14 +52,14 @@ public class PersonService {
                 .build();
     }
 
-    public PersonDTO getPersonById(Long id) throws PersonNotFoundException {
+    public PersonDTO getById(Long id) throws PersonNotFoundException {
 
         Person person = repository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
 
         return personMapper.toDTO(person);
     }
 
-    public void deletePersonById(Long id){
+    public void deleteById(Long id){
         repository.deleteById(id);
     }
 }
