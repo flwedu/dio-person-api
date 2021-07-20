@@ -2,6 +2,7 @@
 
 Um simples projeto de uma API Rest para disponibilizar dados de Pessoas
 e seus respectivos números de telefone.
+Criado durante o **Santander Bootcamp | Fullstack Developer**, em parceria com a [Digital Innovation One](https://web.digitalinnovation.one/) em 2021.
 
 ## Executando a API
 Para rodar o projeto localmente, basa executar:
@@ -16,10 +17,45 @@ A API possui apenas alguns endpoints:
 
 - `api/v1/people`: retorna uma lista com todos os elementos inseridos.
 - `api/v1/people/{id}`: substitua `{id}` por algum número para buscar
-algum elemento pelo Id 
+algum elemento pelo Id.
+
+Estrutura de dados recebida:
+```json
+{
+    "id": 122,
+    "firstName": "John",
+    "lastName": "Snow",
+    "cpf": "000.000.111-22",
+    "phones": [
+          {
+            "type": "MOBILE",
+            "number": "(00)00000-0000"
+          }
+      ]
+}
+```
 
 ### POST
 - `api/v1/people`: para salvar um novo elemento.
+
+Estrutura de dados aceita:
+```json
+{
+    "firstName": "John",
+    "lastName": "Snow",
+    "cpf": "000.000.111-22",
+    "phones": [
+          {
+            "type": "MOBILE",
+            "number": "(00)00000-0000"
+          },
+          {
+            "type": "HOME",
+            "number": "(00)00000-0000"
+          }
+      ]
+}
+```
 
 ### PUT
 - `api/v1/people/{id}`: substitua `{id}` pelo id do elemento que se deseja atualizar.
