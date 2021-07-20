@@ -25,6 +25,17 @@ public class PersonService {
     }
 
     /**
+     * Verifica se existe algum elemento com esse Id.
+     * Caso não exista, lança uma Exception diretamente.
+     * @param id Id do elemento a ser buscado
+     * @throws PersonNotFoundException Excessão lançada caso não seja encontrado.
+     */
+    private Person verifyIfExists(Long id) throws PersonNotFoundException {
+        return repository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+    }
+
+    /**
      * Lista todas as pessoas do repositório
      * @return lista com todas as pessoas
      */
@@ -60,7 +71,7 @@ public class PersonService {
      */
     public PersonDTO getById(Long id) throws PersonNotFoundException {
 
-        Person person = repository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
+        Person person = verifyIfExists(id);
 
         return personMapper.toDTO(person);
     }
@@ -70,8 +81,7 @@ public class PersonService {
      * @param id Id do elemento
      */
     public void deleteById(Long id) throws PersonNotFoundException {
-        repository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
+        verifyIfExists(id);
 
         repository.deleteById(id);
     }
