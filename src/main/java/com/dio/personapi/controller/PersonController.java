@@ -1,10 +1,12 @@
 package com.dio.personapi.controller;
 
 import com.dio.personapi.dto.request.PersonDTO;
+import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.message.MessageResponse;
 import com.dio.personapi.model.Person;
 import com.dio.personapi.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,21 +26,18 @@ public class PersonController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PersonDTO>> getListPerson(){
-        return ResponseEntity.ok(personService.listAllPerson());
+    public List<PersonDTO> getListPerson(){
+        return personService.listAllPerson();
     }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<PersonDTO> getPersonById(@PathVariable Long id){
-//        Optional<Person> findPerson = personService.findById(id);
-//
-//        if(findPerson.isEmpty())
-//            return ResponseEntity.notFound().build();
-//        return ResponseEntity.ok(findPerson.get());
-//    }
+
+    @GetMapping("/{id}")
+    public PersonDTO getPersonById(@PathVariable Long id) throws PersonNotFoundException {
+        return personService.getPersonById(id);
+    }
 
     @PostMapping
-    public ResponseEntity<MessageResponse> createPerson(@RequestBody @Valid PersonDTO personDTO){
-        return ResponseEntity.ok(personService.savePerson(personDTO));
+    @ResponseStatus(HttpStatus.CREATED)
+    public MessageResponse createPerson(@RequestBody @Valid PersonDTO personDTO){
+        return personService.savePerson(personDTO);
     }
 }
