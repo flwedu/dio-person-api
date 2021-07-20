@@ -3,16 +3,13 @@ package com.dio.personapi.controller;
 import com.dio.personapi.dto.request.PersonDTO;
 import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.message.MessageResponse;
-import com.dio.personapi.model.Person;
 import com.dio.personapi.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/person")
@@ -41,9 +38,14 @@ public class PersonController {
         return personService.save(personDTO);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) throws PersonNotFoundException {
+    public void deleteById(@PathVariable Long id) throws PersonNotFoundException {
         personService.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    public MessageResponse updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
+        return personService.updateById(id, personDTO);
     }
 }
