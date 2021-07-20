@@ -69,7 +69,10 @@ public class PersonService {
      * Deleta um elemento encontrado pelo Id.
      * @param id Id do elemento
      */
-    public void deleteById(Long id){
+    public void deleteById(Long id) throws PersonNotFoundException {
+        repository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
+
         repository.deleteById(id);
     }
 }
