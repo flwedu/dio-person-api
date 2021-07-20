@@ -1,4 +1,4 @@
-# person-api
+# dio-person-api
 
 Um simples projeto de uma API Rest para disponibilizar dados de Pessoas
 e seus respectivos números de telefone.
@@ -21,18 +21,32 @@ algum elemento pelo Id.
 
 Estrutura de dados recebida:
 ```json
-{
-    "id": 122,
-    "firstName": "John",
-    "lastName": "Snow",
-    "cpf": "000.000.111-22",
-    "phones": [
-          {
-            "type": "MOBILE",
-            "number": "(00)00000-0000"
-          }
-      ]
-}
+[
+    {
+        "id": 122,
+        "firstName": "John",
+        "lastName": "Snow",
+        "cpf": "000.000.111-22",
+        "phones": [
+              {
+                "type": "MOBILE",
+                "number": "(00)00000-0000"
+              }
+          ]
+    },
+    {
+        "id": 123,
+        "firstName": "Bran",
+        "lastName": "Snow",
+        "cpf": "000.000.111-22",
+        "phones": [
+              {
+                "type": "MOBILE",
+                "number": "(00)22222-4444"
+              }
+          ]
+    },
+]
 ```
 
 ### POST
@@ -41,8 +55,8 @@ Estrutura de dados recebida:
 Estrutura de dados aceita:
 ```json
 {
-    "firstName": "John",
-    "lastName": "Snow",
+    "firstName": "Ned",
+    "lastName": "Stark",
     "cpf": "000.000.111-22",
     "phones": [
           {
