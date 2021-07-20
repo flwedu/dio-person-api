@@ -85,7 +85,7 @@ public class PersonService {
 
         verifyIfExists(id);
 
-        Person personToUpdate = PersonMapper.INSTANCE.toModel(personDTO);
+        Person personToUpdate = personMapper.toModel(personDTO);
 
         Person personAfterUpdate = personRepository.save(personToUpdate);
 
