@@ -58,4 +58,8 @@ public class PersonService {
 
         return personMapper.toDTO(person);
     }
+
+    public void deletePersonById(Long id){
+        repository.deleteById(id);
+    }
 }
