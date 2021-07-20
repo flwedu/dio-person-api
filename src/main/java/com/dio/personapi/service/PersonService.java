@@ -10,29 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
 
-    private PersonRepository repository;
+    private PersonRepository personRepository;
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
     @Autowired
-    public PersonService(PersonRepository repository) {
-        this.repository = repository;
-    }
-
-    /**
-     * Verifica se existe algum elemento com esse Id.
-     * Caso não exista, lança uma Exception diretamente.
-     * @param id Id do elemento a ser buscado
-     * @throws PersonNotFoundException Excessão lançada caso não seja encontrado.
-     */
-    private Person verifyIfExists(Long id) throws PersonNotFoundException {
-        return repository.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
+    public PersonService(PersonRepository personRepository) {
+        this.personRepository = personRepository;
     }
 
     /**
@@ -40,7 +28,7 @@ public class PersonService {
      * @return lista com todas as pessoas
      */
     public List<PersonDTO> listAll(){
-        List<Person> personList = repository.findAll();
+        List<Person> personList = personRepository.findAll();
         return personList
                 .stream()
                 .map(personMapper::toDTO)
@@ -55,7 +43,7 @@ public class PersonService {
     public MessageResponse save(PersonDTO personDTO) {
         Person personToSave = personMapper.toModel(personDTO);
 
-        Person savedPerson = repository.save(personToSave);
+        Person savedPerson = personRepository.save(personToSave);
 
         return MessageResponse
                 .builder()
@@ -83,21 +71,39 @@ public class PersonService {
     public void deleteById(Long id) throws PersonNotFoundException {
         verifyIfExists(id);
 
-        repository.deleteById(id);
+        personRepository.deleteById(id);
     }
 
+    /**
+     * Atualiza um elemento com novos dados.
+     * @param id Id do elemento a ser atualizado.
+     * @param personDTO Novos dados.
+     * @return um MessageResponse} com informações a serem exibidas
+     * @throws PersonNotFoundException Exception lançada caso não seja encontrado nenhum elemento.
+     */
     public MessageResponse updateById(Long id, PersonDTO personDTO) throws PersonNotFoundException {
 
         verifyIfExists(id);
 
         Person personToUpdate = PersonMapper.INSTANCE.toModel(personDTO);
 
-        Person personAfterUpdate = repository.save(personToUpdate);
+        Person personAfterUpdate = personRepository.save(personToUpdate);
 
         return MessageResponse
                 .builder()
                 .message(String.format("Updated person with Id %d", personAfterUpdate.getId()))
                 .build();
 
+    }
+
+    /**
+     * Verifica se existe algum elemento com esse Id.
+     * Caso não exista, lança uma Exception diretamente.
+     * @param id Id do elemento a ser buscado
+     * @throws PersonNotFoundException Exception lançada caso não seja encontrado.
+     */
+    private Person verifyIfExists(Long id) throws PersonNotFoundException {
+        return personRepository.findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 }
