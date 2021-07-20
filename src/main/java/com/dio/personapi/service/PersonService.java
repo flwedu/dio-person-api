@@ -1,6 +1,7 @@
 package com.dio.personapi.service;
 
 import com.dio.personapi.dto.request.PersonDTO;
+import com.dio.personapi.exception.PersonNotFoundException;
 import com.dio.personapi.mapper.PersonMapper;
 import com.dio.personapi.message.MessageResponse;
 import com.dio.personapi.model.Person;
@@ -28,8 +29,8 @@ public class PersonService {
      * @return lista com todas as pessoas
      */
     public List<PersonDTO> listAllPerson(){
-        List<Person> listDTO = repository.findAll();
-        return listDTO
+        List<Person> personList = repository.findAll();
+        return personList
                 .stream()
                 .map(personMapper::toDTO)
                 .collect(Collectors.toList());
@@ -49,5 +50,15 @@ public class PersonService {
                 .builder()
                 .message(String.format("Created a person with ID %d", savedPerson.getId()))
                 .build();
+    }
+
+    public PersonDTO getPersonById(Long id) throws PersonNotFoundException {
+
+        Optional<Person> person = repository.findById(id);
+
+        if(person.isEmpty())
+            throw new PersonNotFoundException(id);
+
+        return personMapper.toDTO(person.get());
     }
 }
