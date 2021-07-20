@@ -23,10 +23,10 @@ public class PersonController {
         this.personService = service;
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<PersonDTO>> getListPerson(){
-//        return ResponseEntity.ok(personService.findAll());
-//    }
+    @GetMapping
+    public ResponseEntity<List<PersonDTO>> getListPerson(){
+        return ResponseEntity.ok(personService.listAllPerson());
+    }
 //
 //    @GetMapping("/{id}")
 //    public ResponseEntity<PersonDTO> getPersonById(@PathVariable Long id){

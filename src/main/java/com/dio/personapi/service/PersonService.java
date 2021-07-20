@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PersonService {
@@ -22,6 +23,23 @@ public class PersonService {
         this.repository = repository;
     }
 
+    /**
+     * Lista todas as pessoas do repositório
+     * @return lista com todas as pessoas
+     */
+    public List<PersonDTO> listAllPerson(){
+        List<Person> listDTO = repository.findAll();
+        return listDTO
+                .stream()
+                .map(personMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Salva uma nova Pessoa no repositório
+     * @param personDTO DTO com os dados a serem persistidos
+     * @return Mensagem que será retornada
+     */
     public MessageResponse savePerson(PersonDTO personDTO) {
         Person personToSave = personMapper.toModel(personDTO);
 
