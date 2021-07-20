@@ -26,24 +26,24 @@ public class PersonController {
     }
 
     @GetMapping
-    public List<PersonDTO> getListPerson(){
+    public List<PersonDTO> listAll(){
         return personService.listAll();
     }
 
     @GetMapping("/{id}")
-    public PersonDTO getPersonById(@PathVariable Long id) throws PersonNotFoundException {
+    public PersonDTO getById(@PathVariable Long id) throws PersonNotFoundException {
         return personService.getById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MessageResponse createPerson(@RequestBody @Valid PersonDTO personDTO){
+    public MessageResponse create(@RequestBody @Valid PersonDTO personDTO){
         return personService.save(personDTO);
     }
 
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletePerson(@PathVariable Long id) throws PersonNotFoundException {
+    public void delete(@PathVariable Long id) throws PersonNotFoundException {
         personService.deleteById(id);
     }
 }
