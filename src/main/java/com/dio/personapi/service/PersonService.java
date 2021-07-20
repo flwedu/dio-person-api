@@ -52,6 +52,12 @@ public class PersonService {
                 .build();
     }
 
+    /**
+     * Realiza a busca de uma elemento pelo seu Id
+     * @param id Id do elemento desejado
+     * @return Caso seja encontrada um elemento
+     * @throws PersonNotFoundException Caso não seja encontrado.
+     */
     public PersonDTO getById(Long id) throws PersonNotFoundException {
 
         Person person = repository.findById(id).orElseThrow(() -> new PersonNotFoundException(id));
@@ -59,6 +65,10 @@ public class PersonService {
         return personMapper.toDTO(person);
     }
 
+    /**
+     * Deleta um elemento encontrado pelo Id.
+     * @param id Id do elemento
+     */
     public void deleteById(Long id){
         repository.deleteById(id);
     }
