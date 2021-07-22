@@ -28,23 +28,25 @@ public class PersonServiceTest {
     @InjectMocks
     private PersonService personService;
 
-
     @Test
     void testThatPersonDTOisSavedAndAMessageIsReturned() {
 
         PersonDTO personDTO = createFakeDTO();
         Person expectedSavedPerson = createFakeEntity();
 
-        when(personMapper.toModel(personDTO)).thenReturn(expectedSavedPerson);
+        // Pedindo ao mockito para retornar objetos quando...
+        // Quando tentar salvar qualquer objeto da classe Person
         when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
 
-        MessageResponse expectedMessage = MessageResponse.builder().
-                message(String.format("Created a person with ID %d", expectedSavedPerson.getId()))
+        // Essa é a mensagem desejada:
+        MessageResponse expectedMessage = MessageResponse
+                .builder()
+                .message(String.format("Created a person with ID %d", expectedSavedPerson.getId()))
                 .build();
 
         MessageResponse meesageCreated = personService.save(personDTO);
 
+        // Comparando a mensagem esperada com a mensagem retornada
         Assertions.assertEquals(expectedMessage, meesageCreated);
-
     }
 }
