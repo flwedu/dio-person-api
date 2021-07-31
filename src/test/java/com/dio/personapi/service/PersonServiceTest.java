@@ -2,8 +2,7 @@ package com.dio.personapi.service;
 
 import static com.dio.personapi.utils.FakePersonFactory.createFakeDTO;
 import static com.dio.personapi.utils.FakePersonFactory.createFakeEntity;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class PersonServiceTest {
 
         List<Person> listaParaRetorno = new ArrayList<Person>();
 
-        when(personRepository.findAll()).thenReturn(listaParaRetorno);
+        Mockito.when(personRepository.findAll()).thenReturn(listaParaRetorno);
 
         List<PersonDTO> listaRetornada = personService.listAll();
 
@@ -58,7 +57,7 @@ public class PersonServiceTest {
 
         // Pedindo ao mockito para retornar objetos quando...
         // Quando tentar salvar qualquer objeto da classe Person
-        when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
+        Mockito.when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
 
         // Essa é a mensagem desejada:
         MessageResponse expectedMessage = MessageResponse.builder()
@@ -77,7 +76,7 @@ public class PersonServiceTest {
         List<Person> listaParaRetorno = new ArrayList<Person>();
         listaParaRetorno.add(person);
 
-        when(personRepository.findAll()).thenReturn(listaParaRetorno);
+        Mockito.when(personRepository.findAll()).thenReturn(listaParaRetorno);
 
         // Configurando um mapper para converter
 
@@ -98,7 +97,7 @@ public class PersonServiceTest {
         listaParaRetorno.add(person);
         listaParaRetorno.add(person);
 
-        when(personRepository.findAll()).thenReturn(listaParaRetorno);
+        Mockito.when(personRepository.findAll()).thenReturn(listaParaRetorno);
 
         List<PersonDTO> listaRetornada = personService.listAll();
 
