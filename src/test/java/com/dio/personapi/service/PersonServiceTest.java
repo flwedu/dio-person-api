@@ -79,10 +79,15 @@ public class PersonServiceTest {
 
         when(personRepository.findAll()).thenReturn(listaParaRetorno);
 
+        // Configurando um mapper para converter
+
         List<PersonDTO> listaRetornada = personService.listAll();
 
+        Assertions.assertEquals(person.getId(), listaRetornada.get(0).getId());
         Assertions.assertEquals(person.getFirstName(), listaRetornada.get(0).getFirstName());
         Assertions.assertEquals(person.getLastName(), listaRetornada.get(0).getLastName());
+        Assertions.assertEquals(person.getBirthDate().toString(), listaRetornada.get(0).getBirthDate());
+        Assertions.assertEquals(person.getCpf(), listaRetornada.get(0).getCpf());
     }
 
     @Test
