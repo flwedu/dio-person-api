@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,6 +36,19 @@ public class PersonServiceTest {
 
     @InjectMocks
     private PersonService personService;
+
+    @Test
+    void testThatPersonServiceReturnsAListType() {
+
+        List<Person> listaParaRetorno = new ArrayList<Person>();
+
+        when(personRepository.findAll()).thenReturn(listaParaRetorno);
+
+        List<PersonDTO> listaRetornada = personService.listAll();
+
+        Assertions.assertEquals(listaRetornada.getClass(), ArrayList.class);
+
+    }
 
     @Test
     void testThatPersonDTOisSavedAndAMessageIsReturned() {
@@ -57,7 +71,7 @@ public class PersonServiceTest {
     }
 
     @Test
-    void testThatPersonServiceReturnsAList() {
+    void testThatPersonServiceReturnsAListWithSameElements() {
 
         Person person = createFakeEntity();
         List<Person> listaParaRetorno = new ArrayList<Person>();
@@ -65,10 +79,10 @@ public class PersonServiceTest {
 
         when(personRepository.findAll()).thenReturn(listaParaRetorno);
 
-        List<Person> listaRetornada = personRepository.findAll();
+        List<PersonDTO> listaRetornada = personService.listAll();
 
-        Assertions.assertEquals(listaParaRetorno, listaRetornada);
-        Assertions.assertEquals(listaRetornada.size(), 1);
+        Assertions.assertEquals(person.getFirstName(), listaRetornada.get(0).getFirstName());
+        Assertions.assertEquals(person.getLastName(), listaRetornada.get(0).getLastName());
     }
 
     @Test
@@ -81,7 +95,7 @@ public class PersonServiceTest {
 
         when(personRepository.findAll()).thenReturn(listaParaRetorno);
 
-        List<Person> listaRetornada = personRepository.findAll();
+        List<PersonDTO> listaRetornada = personService.listAll();
 
         Assertions.assertEquals(listaRetornada.size(), 2);
     }
