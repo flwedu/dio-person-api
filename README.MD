@@ -5,7 +5,7 @@ e seus respectivos números de telefone.
 Criado durante o **Santander Bootcamp | Fullstack Developer**, em parceria com a [Digital Innovation One](https://web.digitalinnovation.one/) em 2021.
 
 ## Executando a API
-Para rodar o projeto localmente, basa executar:
+Para rodar o projeto localmente, basta executar:
 ```Bash
 mvn spring-boot:run 
 ```
