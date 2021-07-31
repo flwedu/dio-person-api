@@ -1,20 +1,25 @@
 package com.dio.personapi.service;
 
-import static com.dio.personapi.utils.FakePersonFactory.*;
+import static com.dio.personapi.utils.FakePersonFactory.createFakeDTO;
+import static com.dio.personapi.utils.FakePersonFactory.createFakeEntity;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dio.personapi.dto.request.PersonDTO;
 import com.dio.personapi.mapper.PersonMapper;
 import com.dio.personapi.message.MessageResponse;
 import com.dio.personapi.model.Person;
 import com.dio.personapi.repository.PersonRepository;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
@@ -49,5 +54,35 @@ public class PersonServiceTest {
 
         // Comparando a mensagem esperada com a mensagem retornada
         Assertions.assertEquals(expectedMessage, meesageCreated);
+    }
+
+    @Test
+    void testThatPersonServiceReturnsAList() {
+
+        Person person = createFakeEntity();
+        List<Person> listaParaRetorno = new ArrayList<Person>();
+        listaParaRetorno.add(person);
+
+        when(personRepository.findAll()).thenReturn(listaParaRetorno);
+
+        List<Person> listaRetornada = personRepository.findAll();
+
+        Assertions.assertEquals(listaParaRetorno, listaRetornada);
+        Assertions.assertEquals(listaRetornada.size(), 1);
+    }
+
+    @Test
+    void testThatReturnedListHaveTheRightSize() {
+
+        Person person = createFakeEntity();
+        List<Person> listaParaRetorno = new ArrayList<Person>();
+        listaParaRetorno.add(person);
+        listaParaRetorno.add(person);
+
+        when(personRepository.findAll()).thenReturn(listaParaRetorno);
+
+        List<Person> listaRetornada = personRepository.findAll();
+
+        Assertions.assertEquals(listaRetornada.size(), 2);
     }
 }
