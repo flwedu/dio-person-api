@@ -18,10 +18,13 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PersonServiceTest {
+
+    // O PersonService utiliza dois objetos, um PersonMapper e um PersonRepository
+    // Então ambos serão mockados com @Mock, e posteriormente injetados ao service
+    // com o @InjectMock
     @Mock
     private PersonMapper personMapper;
 
-    // Pedindo ao mockito para criar um mock e injetar na classe service
     @Mock
     private PersonRepository personRepository;
 
@@ -39,10 +42,8 @@ public class PersonServiceTest {
         when(personRepository.save(any(Person.class))).thenReturn(expectedSavedPerson);
 
         // Essa é a mensagem desejada:
-        MessageResponse expectedMessage = MessageResponse
-                .builder()
-                .message(String.format("Created a person with ID %d", expectedSavedPerson.getId()))
-                .build();
+        MessageResponse expectedMessage = MessageResponse.builder()
+                .message(String.format("Created a person with ID %d", expectedSavedPerson.getId())).build();
 
         MessageResponse meesageCreated = personService.save(personDTO);
 
