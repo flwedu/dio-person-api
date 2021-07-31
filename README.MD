@@ -9,7 +9,7 @@ Para rodar o projeto localmente, basta executar:
 ```Bash
 mvn spring-boot:run 
 ```
-E então o projeto pode ser acessado em `http://localhost:8080/api/v1/people`.
+A API irá rodar na porta 8080 por padrão. Uma requisição pode ser feita para `http://localhost:8080/actuator/health` para verificar o status do servidor. 
 
 A API possui apenas alguns endpoints:
 
@@ -19,7 +19,7 @@ A API possui apenas alguns endpoints:
 - `api/v1/people/{id}`: substitua `{id}` por algum número para buscar
 algum elemento pelo Id.
 
-Estrutura de dados recebida:
+Por exemplo, em uma requisição GET para `http://localhost:8080/api/v1/people`, este é o formato da resposta:
 ```json
 [
     {
